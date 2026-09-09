@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet");
-const https = require("https");
-const fs = require("fs");
 
 const authRoutes = require("./routes/auth");
 const reportRoutes = require("./routes/report");
@@ -41,15 +39,9 @@ mongoose
     console.error("MongoDB connection error:", error.message);
   });
 
-// HTTPS certificate
-const httpsOptions = {
-  pfx: fs.readFileSync("./trustnet.pfx"),
-  passphrase: "TrustNet123",
-};
-
-// Start HTTPS server
+// Start server
 const PORT = process.env.PORT || 5000;
 
-https.createServer(httpsOptions, app).listen(PORT, "0.0.0.0", () => {
-  console.log(`TrustNet HTTPS server running on port ${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`TrustNet server running on port ${PORT}`);
 });
